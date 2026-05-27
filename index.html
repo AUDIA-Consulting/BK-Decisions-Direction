@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decisions and Direction | Baker Katz</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bk-dark: #1a1a2e;
+    --bk-darker: #0f0f1e;
+    --bk-blue: #9fc5e8;
+    --bk-blue-bright: #d4eaff;
+    --bk-blue-dim: rgba(159,197,232,0.15);
+    --bk-gold: #c9a227;
+    --bk-gold-bright: #f0d35a;
+    --bk-gold-dim: rgba(201,162,39,0.12);
+    --bk-red: #b10202;
+    --bk-green: #5ed44b;
+    --bk-white: #f8f9fa;
+    --bk-grey: #d9d9d9;
+    --bk-text: #e0e0e0;
+    --bk-muted: #8a8a9a;
+    --bk-hover-bg: rgba(159,197,232,0.14);
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-serif: 'Instrument Serif', Georgia, serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; font-size:18px; }
+  body { font-family: var(--font-sans); background: var(--bk-darker); color: var(--bk-text); line-height:1.7; }
+
+  /* NAV */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1.1rem 3rem;
+    background:rgba(15,15,30,0.7); backdrop-filter:blur(16px);
+    border-bottom:1px solid rgba(159,197,232,0.08);
+    transition: all .3s;
+  }
+  nav.scrolled { padding:.8rem 3rem; background:rgba(15,15,30,0.95); }
+  nav .brand { font-weight:700; font-size:1.1rem; letter-spacing:.04em; color:#fff; }
+  nav .brand span { color:var(--bk-blue); }
+  nav ul { list-style:none; display:flex; gap:1.6rem; }
+  nav ul li a { color:var(--bk-muted); text-decoration:none; font-size:.82rem; font-weight:500; letter-spacing:.06em; text-transform:uppercase; transition:color .2s; }
+  nav ul li a:hover { color:#fff; }
+
+  /* SECTIONS */
+  section { padding:7rem 3rem; max-width:1200px; margin:0 auto; }
+  .section-label {
+    font-size:.82rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--bk-blue); margin-bottom:.75rem; display:block;
+  }
+  h1 { font-family:var(--font-serif); font-size:clamp(3rem,6vw,4.6rem); color:#fff; line-height:1.08; margin-bottom:1.5rem; font-weight:400; }
+  h1 em { font-style:italic; color:var(--bk-blue); }
+  h2 { font-family:var(--font-serif); font-size:clamp(2.4rem,4.5vw,3.4rem); color:#fff; line-height:1.12; margin-bottom:1.2rem; font-weight:400; }
+  h2 em { font-style:italic; color:var(--bk-blue); }
+  h3 { font-size:1.3rem; font-weight:600; color:#fff; margin-bottom:.5rem; }
+  p { color:var(--bk-text); max-width:800px; font-size:1.05rem; }
+  .lead { font-size:1.25rem; color:var(--bk-muted); max-width:760px; }
+
+  /* HERO */
+  .hero {
+    min-height:100vh; display:flex; flex-direction:column; justify-content:center;
+    padding-top:6rem; position:relative; overflow:hidden;
+  }
+  .hero::before {
+    content:''; position:absolute; top:-40%; right:-20%; width:700px; height:700px;
+    background:radial-gradient(circle, rgba(159,197,232,0.06) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .hero .meta { display:flex; gap:1.5rem; margin-top:2rem; flex-wrap:wrap; }
+  .hero .meta-tag {
+    display:inline-flex; align-items:center; gap:.4rem;
+    padding:.5rem 1.2rem; border-radius:100px; font-size:.88rem; font-weight:500;
+    background:var(--bk-blue-dim); color:var(--bk-blue); border:1px solid rgba(159,197,232,0.15);
+    transition: all .3s;
+  }
+  .hero .meta-tag:hover { background:rgba(159,197,232,0.3); color:#fff; border-color:var(--bk-blue-bright); box-shadow:0 0 16px rgba(159,197,232,0.2); }
+  .hero-sub { display:flex; align-items:center; gap:.6rem; margin-top:2.5rem; }
+  .hero-sub .avatar {
+    width:40px; height:40px; border-radius:50%; background:var(--bk-blue-dim); display:flex; align-items:center; justify-content:center; font-size:.82rem; font-weight:700; color:var(--bk-blue);
+  }
+  .hero-sub span { font-size:.95rem; color:var(--bk-muted); }
+  .hero-sub span strong { color:#fff; }
+  .hero .companion-line {
+    margin-top:1.6rem; font-size:.95rem; color:var(--bk-muted); max-width:760px;
+  }
+  .hero .companion-line a { color:var(--bk-blue); text-decoration:none; border-bottom:1px dashed rgba(159,197,232,0.4); }
+  .hero .companion-line a:hover { color:var(--bk-blue-bright); border-bottom-color:var(--bk-blue-bright); }
+
+  /* DIVIDER */
+  .divider { border:none; border-top:1px solid rgba(159,197,232,0.08); margin:0 3rem; }
+
+  /* STAT BANNER */
+  .math-banner {
+    margin-top:2.5rem;
+    background:linear-gradient(135deg, rgba(159,197,232,0.08), rgba(201,162,39,0.06));
+    border:1px solid rgba(201,162,39,0.25);
+    border-radius:16px; padding:2.8rem 3rem;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:2rem;
+    transition:all .3s;
+  }
+  .math-banner:hover { border-color:var(--bk-gold-bright); box-shadow:0 12px 40px rgba(201,162,39,0.12); }
+  .math-stat { text-align:left; }
+  .math-stat .num { font-family:var(--font-serif); font-size:2.6rem; color:var(--bk-gold-bright); margin-bottom:.3rem; line-height:1; }
+  .math-stat .label { font-size:.82rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--bk-muted); margin-bottom:.4rem; }
+  .math-stat .detail { font-size:.95rem; color:var(--bk-text); }
+
+  /* DRAMATIC STAT (PlazAmericas) */
+  .dramatic-stat {
+    margin-top:2.5rem; padding:3.5rem 3rem; border-radius:18px;
+    background:linear-gradient(135deg, rgba(177,2,2,0.12), rgba(201,162,39,0.08));
+    border:1px solid rgba(177,2,2,0.3);
+    text-align:center; transition:all .3s;
+  }
+  .dramatic-stat:hover { border-color:#ff7070; box-shadow:0 16px 50px rgba(177,2,2,0.18); }
+  .dramatic-stat .big-num {
+    font-family:var(--font-serif); font-size:clamp(5rem,11vw,8rem); line-height:1;
+    color:#ff8080; margin-bottom:.4rem;
+  }
+  .dramatic-stat .big-label {
+    font-size:1rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--bk-muted); margin-bottom:1rem;
+  }
+  .dramatic-stat .big-detail {
+    font-size:1.1rem; color:var(--bk-text); max-width:680px; margin:0 auto;
+  }
+
+  /* INFO STRIP */
+  .info-strip {
+    margin-top:1.6rem; padding:1.4rem 1.8rem; border-radius:12px;
+    background:rgba(159,197,232,0.05); border:1px solid rgba(159,197,232,0.1);
+    font-size:1rem; color:var(--bk-text);
+  }
+  .info-strip strong { color:var(--bk-blue); font-weight:600; }
+  .info-strip.gold { background:rgba(201,162,39,0.06); border-color:rgba(201,162,39,0.18); }
+  .info-strip.gold strong { color:var(--bk-gold-bright); }
+
+  /* ROADMAP LIST */
+  .roadmap-list { list-style:none; margin:1rem 0 1.4rem 0; max-width:780px; }
+  .roadmap-list li {
+    padding:.55rem 0 .55rem 1.8rem; font-size:1.05rem; color:var(--bk-text);
+    position:relative; line-height:1.6;
+  }
+  .roadmap-list li::before {
+    content:''; position:absolute; left:0; top:1.05rem;
+    width:8px; height:8px; border-radius:50%; background:var(--bk-blue);
+  }
+
+  /* CARDS */
+  .cards-2x2 { display:grid; grid-template-columns:1fr 1fr; gap:1.8rem; margin-top:2.5rem; }
+  .cards-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1.8rem; margin-top:2.5rem; }
+  .card {
+    background:rgba(159,197,232,0.04); border:1px solid rgba(159,197,232,0.08);
+    border-radius:16px; padding:2.5rem; transition:all .3s ease;
+  }
+  .card:hover { border-color:var(--bk-blue-bright); background:var(--bk-hover-bg); transform:translateY(-4px); box-shadow:0 12px 40px rgba(159,197,232,0.15); }
+  .card .icon {
+    width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+    font-size:1.2rem; font-weight:700; margin-bottom:1.2rem;
+    background:var(--bk-blue-dim); color:var(--bk-blue); border:1px solid rgba(159,197,232,0.12);
+    transition: all .3s;
+  }
+  .card:hover .icon { background:rgba(159,197,232,0.35); color:#fff; box-shadow:0 0 12px rgba(159,197,232,0.25); }
+  .card h3 { margin-bottom:.6rem; font-size:1.25rem; }
+  .card p { font-size:1rem; color:var(--bk-muted); margin-bottom:.7rem; }
+  .card ul { list-style:none; margin-top:.6rem; }
+  .card ul li { padding:.4rem 0; font-size:.97rem; color:var(--bk-text); display:flex; align-items:flex-start; gap:.6rem; line-height:1.5; }
+  .card ul li::before { content:'·'; color:var(--bk-blue); font-weight:700; flex-shrink:0; font-size:1.4rem; line-height:1; margin-top:0; }
+
+  /* DECISION ROWS with STATUS BADGES */
+  .decisions { margin-top:2.5rem; display:flex; flex-direction:column; gap:1.4rem; }
+  .decision-row {
+    display:grid; grid-template-columns:auto 1fr; gap:1.8rem; align-items:flex-start;
+    padding:2rem 2.4rem; border-radius:16px;
+    background:rgba(201,162,39,0.05); border:1px solid rgba(201,162,39,0.15);
+    transition:all .3s;
+  }
+  .decision-row:hover { border-color:var(--bk-gold-bright); background:rgba(201,162,39,0.1); transform:translateY(-3px); box-shadow:0 12px 40px rgba(201,162,39,0.1); }
+  .decision-num {
+    font-family:var(--font-serif); font-size:2.6rem; color:var(--bk-gold-bright);
+    line-height:1; min-width:3rem; text-align:center;
+  }
+  .decision-body h3 { font-size:1.2rem; color:#fff; margin-bottom:.5rem; }
+  .decision-body p { font-size:1rem; color:var(--bk-text); margin-bottom:.7rem; max-width:920px; }
+  .decision-body .landed {
+    display:block; margin-top:.8rem; padding:.9rem 1.2rem; border-radius:10px;
+    background:rgba(159,197,232,0.07); border:1px solid rgba(159,197,232,0.18);
+    font-size:.98rem; color:var(--bk-text);
+  }
+  .decision-body .landed strong { color:var(--bk-blue); font-weight:600; }
+  .status-badge {
+    display:inline-block; margin-bottom:.6rem; padding:.3rem .8rem; border-radius:100px;
+    font-size:.74rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+  }
+  .status-badge.resolved { background:rgba(94,212,75,0.12); color:var(--bk-green); border:1px solid rgba(94,212,75,0.3); }
+  .status-badge.reframed { background:rgba(159,197,232,0.12); color:var(--bk-blue); border:1px solid rgba(159,197,232,0.3); }
+  .status-badge.deferred { background:rgba(138,138,154,0.12); color:var(--bk-muted); border:1px solid rgba(138,138,154,0.3); }
+  .status-badge.reassigned { background:rgba(201,162,39,0.15); color:var(--bk-gold-bright); border:1px solid rgba(201,162,39,0.3); }
+  .status-badge.recommendation { background:rgba(159,197,232,0.18); color:var(--bk-blue-bright); border:1px solid rgba(159,197,232,0.35); }
+
+  /* DECISION ZERO (PlazAmericas) - special red treatment */
+  .decision-zero {
+    margin-top:2.5rem;
+    padding:2.8rem 3rem; border-radius:18px;
+    background:linear-gradient(135deg, rgba(177,2,2,0.08), rgba(201,162,39,0.06));
+    border:1px solid rgba(177,2,2,0.28);
+    transition:all .3s;
+  }
+  .decision-zero:hover { border-color:#ff7070; box-shadow:0 16px 50px rgba(177,2,2,0.16); }
+  .decision-zero h3 { font-size:1.5rem; margin-bottom:.8rem; color:#fff; }
+  .decision-zero .paths { display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; margin-top:1.8rem; }
+  .decision-zero .path {
+    padding:1.4rem 1.4rem; border-radius:12px; background:rgba(15,15,30,0.4); border:1px solid rgba(255,255,255,0.06);
+    transition:all .3s;
+  }
+  .decision-zero .path:hover { border-color:var(--bk-blue-bright); background:rgba(15,15,30,0.6); }
+  .decision-zero .path .path-label {
+    font-size:.78rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--bk-muted); margin-bottom:.5rem;
+  }
+  .decision-zero .path h4 { font-size:1.05rem; color:#fff; margin-bottom:.5rem; font-weight:600; }
+  .decision-zero .path p { font-size:.92rem; color:var(--bk-text); margin:0; }
+  .decision-zero .path.recommended { border-color:rgba(94,212,75,0.4); background:rgba(94,212,75,0.06); }
+  .decision-zero .path.recommended .path-label { color:var(--bk-green); }
+  .decision-zero .recommendation-strip {
+    margin-top:1.8rem; padding:1.2rem 1.4rem; border-radius:10px;
+    background:rgba(94,212,75,0.08); border:1px solid rgba(94,212,75,0.25);
+    font-size:1rem; color:var(--bk-text);
+  }
+  .decision-zero .recommendation-strip strong { color:var(--bk-green); font-weight:600; }
+
+  /* WORKSTREAM CARDS (cards-2x2 variant with gold accent) */
+  .workstream {
+    background:rgba(201,162,39,0.05); border:1px solid rgba(201,162,39,0.18);
+    border-radius:16px; padding:2.5rem; transition:all .3s ease;
+  }
+  .workstream:hover { border-color:var(--bk-gold-bright); background:rgba(201,162,39,0.1); transform:translateY(-4px); box-shadow:0 12px 40px rgba(201,162,39,0.12); }
+  .workstream .icon {
+    width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+    font-size:1.2rem; font-weight:700; margin-bottom:1.2rem;
+    background:rgba(201,162,39,0.15); color:var(--bk-gold-bright); border:1px solid rgba(201,162,39,0.25);
+    transition: all .3s;
+  }
+  .workstream:hover .icon { background:rgba(201,162,39,0.35); color:#fff; }
+  .workstream h3 { margin-bottom:.6rem; font-size:1.25rem; }
+  .workstream p { font-size:1rem; color:var(--bk-text); margin-bottom:.7rem; }
+  .workstream ul { list-style:none; margin-top:.6rem; }
+  .workstream ul li { padding:.4rem 0; font-size:.97rem; color:var(--bk-text); display:flex; align-items:flex-start; gap:.6rem; line-height:1.5; }
+  .workstream ul li::before { content:'·'; color:var(--bk-gold-bright); font-weight:700; flex-shrink:0; font-size:1.4rem; line-height:1; }
+
+  /* FOOTER */
+  footer {
+    text-align:center; padding:3rem; font-size:.88rem; color:var(--bk-muted);
+    border-top:1px solid rgba(159,197,232,0.06);
+  }
+
+  /* FADE-IN */
+  .fade-in { opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease; }
+  .fade-in.visible { opacity:1; transform:translateY(0); }
+
+  /* RESPONSIVE */
+  @media(max-width:768px) {
+    html { font-size:16px; }
+    nav { padding:.8rem 1.5rem; }
+    nav ul { display:none; }
+    section { padding:4rem 1.5rem; }
+    .cards-2x2, .cards-3 { grid-template-columns:1fr; }
+    .math-banner { grid-template-columns:1fr 1fr; }
+    .decision-row { grid-template-columns:1fr; gap:.8rem; padding:1.8rem; }
+    .decision-zero .paths { grid-template-columns:1fr; }
+    .divider { margin:0 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="topNav">
+  <div class="brand">AUDIA <span>·</span> Baker Katz</div>
+  <ul>
+    <li><a href="#changed">What Changed</a></li>
+    <li><a href="#reframe">Reframe</a></li>
+    <li><a href="#plazamericas">PlazAmericas</a></li>
+    <li><a href="#decisions">Decisions</a></li>
+    <li><a href="#workstreams">Team</a></li>
+    <li><a href="#math">Math</a></li>
+    <li><a href="#tech">Tech</a></li>
+    <li><a href="#next">What's Next</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="fade-in visible">
+    <span class="section-label">Business Development Synthesis · Update</span>
+    <h1>Decisions and<br><em>Direction</em></h1>
+    <p class="lead">The next-step synthesis. Where the seven strategic decisions landed, what's now resolved, what got reframed, and the workstreams that come next.</p>
+    <div class="meta">
+      <span class="meta-tag">Role Architecture</span>
+      <span class="meta-tag">PlazAmericas Decision</span>
+      <span class="meta-tag">Two-Hire Plan</span>
+      <span class="meta-tag">Key-Man Risk</span>
+      <span class="meta-tag">Fund VI Horizon</span>
+    </div>
+    <div class="hero-sub">
+      <div class="avatar">BA</div>
+      <span>Prepared by <strong>Brian Audia</strong> · AUDIA Consulting · for Jason Baker, Kenneth Katz, and Ben Brown · May 26, 2026</span>
+    </div>
+    <p class="companion-line">Companion to the May 8 working synthesis (<em>BD Current State and Decisions Required</em>). That document remains the standalone foundation. This one moves the conversation forward from where Jason and Kenneth took it across the four follow-up sessions.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- WHAT CHANGED -->
+<section id="changed">
+  <div class="fade-in">
+    <span class="section-label">01 / What Changed Since May 8</span>
+    <h2>From Synthesis to Direction</h2>
+    <p style="margin-bottom:1rem;">In the eighteen days since the May 8 working document, four conversations have moved the picture forward. Three were joint sessions, the fourth was Kenneth's solo deep-dive with Claude on May 24. Each is filed in the Baker Katz transcripts folder. The pattern across all four is consistent enough that this document is no longer a request for decisions. It is a synthesis of where the decisions actually landed and what the next moves are.</p>
+    <ul class="roadmap-list">
+      <li><strong>May 12 (Brian, Jason, Kenneth)</strong>: Section-by-section walkthrough of the May 8 doc. Math validated and refined upward. The IRR-versus-cash-on-cash epiphany surfaced in Kenneth's own words.</li>
+      <li><strong>May 14 (Brian, Jason, Kenneth)</strong>: Picked up where May 12 left off. Decisions 01 through 04 worked through. Kenneth and Jason's joint articulation of the role they want to play emerged for the first time on a recorded call.</li>
+      <li><strong>May 22 (Brian, Jason, Kenneth)</strong>: Technology and personnel direction. Both agreed they are not using what they already have. Both opened the door to hiring as soon as the strategy is set. The two-hire concept (hunter and farmer) crystallized.</li>
+      <li><strong>May 24 (Kenneth solo, with Claude)</strong>: Kenneth's deepest articulation of personal vision to date. PlazAmericas time consumption surfaced. Investment criteria moved from abstract to specific. A named candidate for the new-partner seat entered the picture.</li>
+    </ul>
+    <div class="info-strip">
+      <strong>How this document is structured.</strong> The reframe in Section 02 is the meta-shift. PlazAmericas in Section 03 is Decision Zero, the gate everything else waits behind. Section 04 walks the seven original decisions and shows where each one landed. Sections 05 through 09 are the new workstreams, the updated math, the technology recommendations, the long-horizon succession note, and the specific next moves.
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- REFRAME -->
+<section id="reframe">
+  <div class="fade-in">
+    <span class="section-label">02 / The Reframe</span>
+    <h2>From Acquisition Strategy to <em>Role Architecture</em></h2>
+    <p style="margin-bottom:1rem;">The biggest shift since May 8 is not in any one decision. It is in how the question itself is framed. The May 8 document treated this as an acquisition strategy problem with seven sub-decisions. What the May 12, 14, 22, and 24 conversations made clear is that the acquisition strategy is downstream of a more fundamental question. What role do Jason and Kenneth play in the business going forward, and what team shape does that role require? Get the role architecture right and the acquisition strategy falls out of it. Get the acquisition strategy right without the role architecture and the firm will be back at this same conversation in eighteen months.</p>
+    <p style="margin-bottom:1rem;">Kenneth's articulation of the new posture on May 14, with Jason agreeing on the call, is the clearest expression of it. He described loving the hunt and wanting to be free of the kill. He described investing as a limited partner in a recent deal and the relief of not carrying the problems. He described wanting Ben and one or two other younger people to be the ones reaping most of the economic benefit on the active side, while he and Jason throttle back to a smaller share of the promote, do not guarantee loans anymore, and shift their personal capital into the LP seat. Eight days later, in his solo session with Claude on May 24, he put numbers on it. Roughly $4M each per year (~$8M total) deployed across deals where the firm participates as the capital and the relationships, not as the operator and the guarantor.</p>
+    <div class="info-strip gold">
+      <strong>The shape that follows from the reframe.</strong> Jason and Kenneth as managing principals on an investment committee. Ben as the head of operations, with bench depth built beneath him to mitigate key-man risk. A new partner-level hire as the head of investments, sourcing deals and bringing institutional capital. The seven strategic decisions in the May 8 document are now sub-decisions inside this larger architecture.
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- DECISION ZERO: PLAZAMERICAS -->
+<section id="plazamericas">
+  <div class="fade-in">
+    <span class="section-label">03 / Decision Zero</span>
+    <h2>The PlazAmericas <em>Gate</em></h2>
+    <p style="margin-bottom:1rem;">The single most important data point that has surfaced since May 8 was not in any of the joint sessions. It came out of Kenneth's May 24 conversation with Claude, where he stated plainly that PlazAmericas consumes 50 to 60 percent of his time and mental energy. That number changes the order of operations for everything else in this document. The role redefinition, the LP deployment, the team build, and the acquisition strategy all assume Kenneth has bandwidth to drive them. He does not, until PlazAmericas is resolved.</p>
+  </div>
+
+  <div class="dramatic-stat fade-in">
+    <div class="big-num">50–60%</div>
+    <div class="big-label">Of Kenneth's Time and Mental Energy</div>
+    <div class="big-detail">Consumed today by a single 850,000 SF enclosed mall whose redevelopment path does not align with the direction Kenneth and Jason have described for the rest of the business.</div>
+  </div>
+
+  <div class="decision-zero fade-in">
+    <span class="status-badge recommendation">Recommendation Embedded</span>
+    <h3>Three Paths, One Recommendation</h3>
+    <p style="margin-bottom:.6rem;">PlazAmericas is a diamond-in-the-rough enclosed mall in an underserved Houston neighborhood. Four years of entitlement work are behind it. A catalytic lease with a major national retailer is about to close. The community impact case for finishing the redevelopment is real and worth honoring. The financial case is also real. But the opportunity cost of Kenneth's continued direct involvement is now the highest line item in the business.</p>
+    <div class="paths">
+      <div class="path">
+        <span class="path-label">Path A</span>
+        <h4>Sell Outright</h4>
+        <p>Take the value already created through entitlements and the catalytic lease. Reclaim Kenneth's time and bandwidth immediately. Forfeit the community impact and the redevelopment upside.</p>
+      </div>
+      <div class="path recommended">
+        <span class="path-label">Path B · Recommended</span>
+        <h4>Bring in a Mall Operating Partner</h4>
+        <p>An experienced enclosed-mall operator takes over daily management and the redevelopment execution. Baker Katz retains meaningful economics and the community impact is preserved. Kenneth reclaims most of the 50 to 60 percent over a defined transition window.</p>
+      </div>
+      <div class="path">
+        <span class="path-label">Path C</span>
+        <h4>Finish as the "Final Big Project"</h4>
+        <p>Kenneth stays in the seat through the redevelopment as a one-time exception. Honors the work and the impact. Defers the role redefinition by two to four years and keeps personal recourse exposure in place.</p>
+      </div>
+    </div>
+    <div class="recommendation-strip">
+      <strong>Recommended sequence.</strong> Pursue the operating partner conversation aggressively over the next 90 days. If a viable partner does not emerge in that window, move decisively to Path A (outright sale) rather than defaulting to Path C (finishing the redevelopment as the final big project). The opportunity cost of Kenneth's continued direct involvement at this scale almost certainly exceeds the incremental redevelopment upside that direct involvement would capture.
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- WHERE THE SEVEN DECISIONS LANDED -->
+<section id="decisions">
+  <div class="fade-in">
+    <span class="section-label">04 / Where the Seven Decisions Landed</span>
+    <h2>What's Resolved, Reframed, or Deferred</h2>
+    <p class="lead">A status pass through each of the seven decisions in the May 8 document. Three landed cleanly. Two got reframed. One reassigned. One largely came off the front burner. Each is captured below in the form it actually took during the May 12, 14, 22, and 24 conversations.</p>
+  </div>
+
+  <div class="decisions fade-in">
+
+    <div class="decision-row">
+      <div class="decision-num">01</div>
+      <div class="decision-body">
+        <span class="status-badge resolved">Resolved · Sequence Defined</span>
+        <h3>Capital Structure: Status Quo or Scale</h3>
+        <p>The May 8 document framed this as a binary between <strong>Path A</strong> (hold the current friends-and-family waterfall and accept that the three-year goal flexes to the size of capital that base will fund) and <strong>Path B</strong> (move to a more market-standard waterfall and likely a new vehicle to unlock institutional and scale-grade equity). Jason and Kenneth both landed on a sequenced answer rather than the binary. The path is Path A now, design Path B with the new team. Jason captured it in real time on the May 14 call: identify the person before leaning into a significant change in structure. Kenneth's May 24 framing reinforces it. Keep the existing waterfall for the loyal friends-and-family base. Adjust the waterfall only when courting the institutional capital the new partner candidate brings with him.</p>
+        <div class="landed"><strong>Where it landed.</strong> Path A (status quo waterfall) in the short run. Path B (the new institutional-grade vehicle) activates after the new partner is in seat and is the architect of what the new structure looks like. The added LP capital the new partner brings becomes the bridge from the friends-and-family base to a scale-grade vehicle without breaking the structure that has worked for two decades of loyal investors.</div>
+      </div>
+    </div>
+
+    <div class="decision-row">
+      <div class="decision-num">02</div>
+      <div class="decision-body">
+        <span class="status-badge resolved">Resolved · Multi-Metric</span>
+        <h3>Underwriting Gate: IRR or Cash-on-Cash</h3>
+        <p>Kenneth's May 12 epiphany became the May 14 resolution. IRR remains a useful front-end metric, but only assuming a hold period up to five years. After year five, IRR erodes mechanically and stops being informative. Beyond that horizon, cash-on-cash becomes the primary lens. Jason added return on equity as a third metric that needs to live in the model. Kenneth's May 24 session with Claude added the absolute dollar size of the promote as a tertiary screen, on the logic that a thin promote on a small deal is not worth the firm's effort at this stage of the partners' careers.</p>
+        <div class="landed"><strong>Where it landed.</strong> A multi-metric underwriting model. IRR with a hard 5-year hold cap. Cash-on-cash as the long-horizon governor. Return on equity as the third lens. Promote dollar threshold as the screen that keeps the firm out of small deals where the math works but the time does not. Kenneth offered specific thresholds in his Claude session: for development, 200 basis point spread on cost versus exit cap and 2x equity in 36 months with no personal recourse; for stabilized acquisitions, 14% levered IRR on the 5-year assumption and 12%-plus cash-on-cash within a few years of acquisition, 55 to 65 percent LTV. These need Jason's confirmation and then become the formal investment policy.</div>
+      </div>
+    </div>
+
+    <div class="decision-row">
+      <div class="decision-num">03</div>
+      <div class="decision-body">
+        <span class="status-badge reframed">Reframed</span>
+        <h3>Decision Transparency on Tenant Feedback</h3>
+        <p>The May 14 conversation reframed this decision. Jason pushed back on the framing that retail screening could be made formulaic. He used the example of a deal that looks correct on every visible metric but fails on local dynamics that only show up in trade-area knowledge. Kenneth agreed and offered the right framing: somewhere between fully intuitive and fully formulaic. A clearer expression of the firm's "fairway" so a sourcing partner knows what to bring forward, paired with explicit retention of the qualitative judgment that has been a strength.</p>
+        <div class="landed"><strong>Where it landed.</strong> Articulate the fairway. Specify what is in and what is out on product type, geography, deal size, return thresholds, and risk posture. Preserve the explicit right to look at deals outside the fairway when the qualitative case warrants it. The fairway document doubles as the screening tool that makes the new partner's sourcing role workable. The qualitative override stays with Jason and Kenneth as the investment committee.</div>
+      </div>
+    </div>
+
+    <div class="decision-row">
+      <div class="decision-num">04</div>
+      <div class="decision-body">
+        <span class="status-badge deferred">Largely Off the Table</span>
+        <h3>Sell/Hold Cadence</h3>
+        <p>Kenneth pushed back on this one directly. Baker Katz is a holder, not a seller. Of the roughly 90 projects in the firm's history, about half remain owned. Sales happen when there is a specific reason (loan maturity, a deal whose risk profile shifted, a desire to recycle capital to LPs ahead of a fund raise), not on a calendar. A more structured cadence would not change behavior because the holding posture is not driven by inattention. It is a deliberate strategic choice. The reframe to "cadence of review" rather than "cadence of selling" landed softly. Kenneth's read: low priority compared to the other open items.</p>
+        <div class="landed"><strong>Where it landed.</strong> Path A in substance (keep the current ad hoc approach rather than the Path B alternative of a rolling sell/hold review on a defined cadence). Sell/hold reviews happen organically and asset-by-asset, driven by specific catalysts. A light structured review can be added (quarterly or annually) for visibility, but it is not a workstream that moves the needle. This decision comes off the front burner.</div>
+      </div>
+    </div>
+
+    <div class="decision-row">
+      <div class="decision-num">05</div>
+      <div class="decision-body">
+        <span class="status-badge reassigned">Reassigned</span>
+        <h3>Top-20 List: Formal or Informal</h3>
+        <p>The May 8 framing put this decision in Jason and Kenneth's seat. The May 22 personnel conversation and the May 24 Kenneth-Claude session changed that. If the new partner is the sourcer and the institutional capital raiser, then the Top-20 relationship list is primarily his to own and maintain, not Jason or Kenneth's. The formality question stops being a binary about how the principals work and becomes a setup decision for the new hire's seat.</p>
+        <div class="landed"><strong>Where it landed.</strong> Decision deferred to the new partner once hired. Likely Path C in form (formal on a small set of priority categories such as lenders, capital, master-planned community developers, land owners, and brokers; informal elsewhere). The CRM that supports it (Decision 07 below) becomes part of that hire's onboarding.</div>
+      </div>
+    </div>
+
+    <div class="decision-row">
+      <div class="decision-num">06</div>
+      <div class="decision-body">
+        <span class="status-badge resolved">Resolved · Open Posture</span>
+        <h3>Tech Spend Posture</h3>
+        <p>Both Jason and Kenneth named the same thing on May 22. They are not getting full value from the tools they already have, and what they have does not function as a cohesive system. Jason was direct about his personal workflow still living on a laptop. Kenneth named the absence of a centralized CRM on the development side. Both opened the door wide for recommendations. Neither came in with a strong view on tooling specifics, which is the answer to the May 8 open question. They want Brian to bring the recommendations and the standing budget to support them.</p>
+        <div class="landed"><strong>Where it landed.</strong> Path B confirmed (a standing tech budget with a named decision-owner, rather than the Path A continuation of case-by-case spend driven by use case). Specific recommendations are AUDIA's to bring (see Section 07 of this document). The fact that both partners have started using Claude personally since the May 22 call is itself evidence of the posture they want to take. Predictive Index also came up in the May 22 personnel conversation as a tool both partners want to use for the upcoming hires.</div>
+      </div>
+    </div>
+
+    <div class="decision-row">
+      <div class="decision-num">07</div>
+      <div class="decision-body">
+        <span class="status-badge resolved">Resolved · Recommendation Inbound</span>
+        <h3>CRM and Data Infrastructure</h3>
+        <p>Kenneth's May 12 question was an honest one: does the firm really need a centralized CRM, given that the brokerage business uses its own and the development team has been able to function with a Google Sheet and Teams Planner. The answer became clearer as the May 22 conversation surfaced the personnel direction. With the new partner-level hire incoming, with Ben already at the full breadth of his role, with relationships becoming the principal sourcing lever, and with the firm aiming to be more intelligence-driven, a proper CRM is no longer optional. Path C.</p>
+        <div class="landed"><strong>Where it landed.</strong> Path C (invest in a proper CRM that consolidates relationships, deals, equity opportunities, development pipeline, and the market data the brokerage team produces, rather than the Path A "stay with the current Google Sheet plus Teams Planner setup" or the Path B "build something custom around the existing tools"). Specific platform recommendation comes in Section 07. The CRM is one of the items that should be in place before the new partner starts, so the relationship infrastructure is ready for him on day one.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- TWO NEW WORKSTREAMS -->
+<section id="workstreams">
+  <div class="fade-in">
+    <span class="section-label">05 / The Two New Workstreams</span>
+    <h2>Team Architecture and <em>Key-Man Depth</em></h2>
+    <p class="lead">Two workstreams that did not appear in the May 8 document but that the four follow-up conversations made unavoidable. Each is meaningful enough to be its own thread of work.</p>
+  </div>
+
+  <div class="cards-2x2 fade-in">
+
+    <div class="workstream">
+      <div class="icon">A</div>
+      <h3>The Two-Hire Architecture</h3>
+      <p>The May 22 conversation introduced the hunter / farmer framing. The May 24 conversation gave the hunter seat a specific candidate. Together they form the shape of the next personnel move.</p>
+      <ul>
+        <li><strong>Hunter (peer to Ben).</strong> Sources deals primarily, raises capital secondarily. Sits at the investment table, builds the institutional and broker relationships, runs LOIs and due diligence, presents deals to the investment committee for go or no-go. The candidate Kenneth identified fits this profile.</li>
+        <li><strong>Farmer.</strong> Executes the deals that come through the door. Works the existing on-market pipeline, runs the analytical work, supports the hunter and Ben. Less external, more behind-the-scenes. Lower seniority than the hunter.</li>
+        <li><strong>Predictive Index for both.</strong> Both partners want PI used for the hires. The May 22 conversation explicitly named that a PI on Jack would have surfaced the fit problem before the hire was made. PI also becomes the baseline for onboarding clarity.</li>
+        <li><strong>Compensation architecture.</strong> The hunter gets meaningful promote participation and likely the option to invest personal capital alongside the firm. The farmer gets a more traditional salary-plus-bonus structure with smaller promote participation that scales over time. The exact shape is the next conversation, not this document.</li>
+      </ul>
+    </div>
+
+    <div class="workstream">
+      <div class="icon">B</div>
+      <h3>Key-Man Depth Under Ben</h3>
+      <p>Kenneth named this explicitly in his May 24 Claude session, and it is not in the May 8 document. As Jason and Kenneth step back into the managing-principal role, the firm cannot be one Ben away from operational collapse. The fix is not finding a Ben equal. The fix is building bench depth beneath him.</p>
+      <ul>
+        <li><strong>Leasing.</strong> Could Thomas take on greater responsibility for LOI negotiations and lease execution if the compensation structure incentivizes negotiation time rather than pure commission? Worth a direct conversation with Thomas and a comp model review.</li>
+        <li><strong>Asset management succession.</strong> Could Kennedi be groomed over the next two to three years to absorb a meaningful portion of what Ben does on the asset-management side? Worth a development plan.</li>
+        <li><strong>Outsourced legal as a force multiplier.</strong> A real estate attorney who learns the Baker Katz portfolio and operates as an extension of the team could meaningfully reduce Ben's involvement in routine lease execution. Template playbook needed.</li>
+        <li><strong>Document and check-signing delegation.</strong> Kenneth signs every check and reviews every lease today. The controller has earned the trust to handle check-signing with appropriate reporting. Lease review can shift from editor to approver mode with a one-page term summary. These are personal-preference items, not legal-requirement items, and they are within Kenneth's gift to release.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- MATH UPDATED -->
+<section id="math">
+  <div class="fade-in">
+    <span class="section-label">06 / The Math, Updated</span>
+    <h2>Numbers Refined, Goal Made Elastic</h2>
+    <p style="margin-bottom:1rem;">Kenneth's May 12 recalculation moved the equity requirement up. Using 60 to 65 percent leverage rather than the 70 percent assumed in the May 8 back-of-envelope, the seven larger deals alone need closer to $49M of equity rather than $42M. The other thirteen deals add roughly $26M. Total equity required is closer to $75M than $70M. More importantly, Brian, Jason, and Kenneth aligned on the May 12 call that the deal count goal is not sacrosanct. The goal flexes to the size of capital the firm can responsibly raise and deploy. Focus on deal quality and a commitment to a half-dozen larger deals, with the total count being downstream of capital availability rather than the other way around.</p>
+  </div>
+
+  <div class="math-banner fade-in">
+    <div class="math-stat">
+      <div class="num">~$75M</div>
+      <div class="label">Equity Required (Updated)</div>
+      <div class="detail">Per Kenneth's May 12 recalc: 7 large deals at $20M avg with 60-65% leverage equals ~$49M, plus 13 smaller deals at ~$2M of equity each adds ~$26M.</div>
+    </div>
+    <div class="math-stat">
+      <div class="num">$14.5M</div>
+      <div class="label">Fund V Remaining</div>
+      <div class="detail">Per the controller. Likely deployable to ~$20M of total equity with sidecar investors over the next 18 months.</div>
+    </div>
+    <div class="math-stat">
+      <div class="num">$8M/yr</div>
+      <div class="label">Partner LP Deployment</div>
+      <div class="detail">Kenneth and Jason's combined initial LP capital target ($4M each), scaling over time as capital recycles. Magnifies firm reach when combined with sidecar capital.</div>
+    </div>
+    <div class="math-stat">
+      <div class="num">6-8 mo</div>
+      <div class="label">Fund VI Planning Window</div>
+      <div class="detail">Fund V extends through December 31, 2027. Fund VI structuring and friends-and-family raise discussions begin in the next 6 to 8 months on the current sequence.</div>
+    </div>
+  </div>
+
+  <div class="info-strip fade-in">
+    <strong>Capital strategy refinements.</strong> First, the structure of Fund VI should preserve the current 50/50-over-8% waterfall for the existing loyal LPs. Adjustments to the waterfall are reserved for new institutional capital that the incoming partner candidate brings with him. Second, a line of credit ($5M to $10M) is worth evaluating as a competitive advantage on speed-sensitive deals (off-market and quietly marketed), with the option to refinance into permanent debt later. Third, the explicit acknowledgment that personal recourse is the binding constraint on Kenneth and Jason's appetite, not capital. Stabilized cash-flowing acquisitions can typically be financed without personal recourse, and where recourse is required (development, ground-up), it can usually be moved to minimally capitalized single-member LLCs that the go-to banks already accept.
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- TECHNOLOGY RECOMMENDATIONS -->
+<section id="tech">
+  <div class="fade-in">
+    <span class="section-label">07 / Technology and Data Infrastructure</span>
+    <h2>The Recommendations the Two of You Asked For</h2>
+    <p class="lead">Both partners said on May 22 that they want recommendations rather than a fresh debate about posture. The list below is the recommendation set, organized by the workstream each item enables.</p>
+  </div>
+
+  <div class="cards-2x2 fade-in">
+
+    <div class="card">
+      <div class="icon">A</div>
+      <h3>Centralized CRM (Decision 07 implementation)</h3>
+      <p>Consolidates relationships, deals, equity opportunities, development pipeline, and the market data the brokerage team produces. Becomes the operating system for the incoming partner's sourcing role and for the Top-20 list infrastructure.</p>
+      <ul>
+        <li>Specific platform recommendation forthcoming in a separate evaluation note. Front-runner candidates are HubSpot Sales Pro and Affinity, with Affinity weighted by its native fit for relationship-driven deal sourcing.</li>
+        <li>Implementation timing: in place before the new partner's start date so the relationship infrastructure is ready for him on day one.</li>
+        <li>Migration of the existing Google Sheet and Teams Planner deal lists folded into setup.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="icon">B</div>
+      <h3>AI Tooling for the Upfront Work</h3>
+      <p>Specific use cases where AI tooling meaningfully reduces human hours on work that does not require principal judgment. Both partners began using Claude personally between May 22 and May 24, which is itself evidence of the receptivity.</p>
+      <ul>
+        <li>Lease abstraction (the kind of work Kenneth currently does manually on documents).</li>
+        <li>Title document and survey review for due diligence triage.</li>
+        <li>Front-end screening triage so the new partner's sourcing pipeline gets a first-pass filter before any human time goes against a deal.</li>
+        <li>Email triage and calendar workflow improvements (addresses both partners' May 22 complaints directly).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="icon">C</div>
+      <h3>Email and Workflow Fixes (Immediate)</h3>
+      <p>The two partners' workflow is the lowest-hanging item on the list and the one Melissa is already engaged on. The May 12 call confirmed the Brading email project moves forward.</p>
+      <ul>
+        <li>Jason's laptop-as-filing-cabinet pattern shifts to cloud-based with consistent folder taxonomy.</li>
+        <li>Kenneth's inbox volume problem addressed with rules-based triage and a daily processing protocol.</li>
+        <li>Jennifer (Kenneth's EA) included in the rollout for ongoing maintenance.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="icon">D</div>
+      <h3>Outsourced Legal as Force Multiplier</h3>
+      <p>The bench-depth fix on the leasing side. An attorney who learns the Baker Katz portfolio and operates as an extension of the team reduces Ben's involvement in routine lease execution and frees Kenneth from the document-review pattern he wants to release.</p>
+      <ul>
+        <li>Template playbook specific to Baker Katz lease economics, co-tenancy patterns, and acceptable language.</li>
+        <li>Tiered involvement: routine renewals and small-tenant leases handled by counsel with summary to Ben; large national-tenant leases trigger principal review on a one-page term summary, not the full document.</li>
+        <li>Phase-in over six months so Ben and Kenneth release the work as confidence in the counsel relationship builds.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SUCCESSION -->
+<section id="succession">
+  <div class="fade-in">
+    <span class="section-label">08 / Long Horizon</span>
+    <h2>Succession, on the Table for the First Time</h2>
+    <p style="margin-bottom:1rem;">Kenneth surfaced succession explicitly in his May 24 Claude session. Both he and Jason have college-age children. None are currently positioned to enter the business, though Kenneth has not closed the door on the possibility. The decision is not a near-term one. The relevance here is that the structural choices being made today should leave the succession door open without forcing it. The mentorship architecture being built (younger people sourcing and executing, principals providing capital and oversight) is exactly the shape that could naturally accommodate the next generation if and when that interest emerges, without the complexity of children working immediately under their parents. The single-purpose entity structure that already governs every project provides the asset-by-asset flexibility to divide, sell, or transition holdings over time without restructuring the firm.</p>
+    <div class="info-strip">
+      <strong>What this means for the work in this document.</strong> Nothing changes in the near-term action set. The note is here so the long-horizon variable is on the table rather than implicit, and so the team architecture choices being made now are made with awareness that they may need to absorb family-generation participation in five to fifteen years.
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- WHAT'S NEXT -->
+<section id="next">
+  <div class="fade-in">
+    <span class="section-label">09 / What's Next</span>
+    <h2>The Specific Next Moves</h2>
+    <p class="lead">Three immediate items, plus the conversation about how to bring this document into a working session with Ben Brown now formally in the conversation.</p>
+  </div>
+
+  <div class="cards-3 fade-in">
+
+    <div class="card">
+      <div class="icon">01</div>
+      <h3>The PlazAmericas Conversation</h3>
+      <p>The Decision Zero framing in Section 03 has not been worked through jointly with Jason on a call. Next step: a working session with Brian, Jason, and Kenneth on the operating-partner path. Specific names of potential mall operators to approach, deal structure parameters that preserve the community impact and the economics, and the 90-day window for that conversation to produce a viable counterparty.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">02</div>
+      <h3>The New Partner Candidate</h3>
+      <p>Kenneth identified a specific candidate for the hunter seat in his May 24 Claude session. Next step: a separate working conversation between Kenneth and Brian on whether and how to approach him. Timing, the relationship Kenneth has with the candidate's father, the compensation architecture, the chemistry test, and what the conversation should accomplish on a first meeting versus what it should defer.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">03</div>
+      <h3>Ben Joins the Working Sessions</h3>
+      <p>The May 22 conversation closed with the agreement that Ben Brown is now part of these working sessions going forward. The next scheduled session should include him from the start. Distribution of this document includes him so he comes in oriented. The first session with Ben in the room is the natural place to walk through Sections 04 (where decisions landed), 05 (the two-hire architecture and his ceiling), and 07 (the technology recommendations that affect his daily work).</p>
+    </div>
+
+  </div>
+
+  <div class="info-strip gold fade-in" style="margin-top:2.5rem;">
+    <strong>The artifact that follows this one.</strong> Once the three immediate items above are worked through, the next deliverable is the actual acquisition strategy and project plan that the May 8 and May 26 documents have been building toward. That document moves from synthesis to execution: the formal investment policy with the criteria from Section 04, the 12-month team build sequence, the Fund VI planning timeline, the PlazAmericas resolution timeline, and the rolling 90-day operating cadence that turns all of this into work that gets done.
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  AUDIA Consulting · Prepared for Jason Baker, Kenneth Katz, and Ben Brown · May 26, 2026<br>
+  <span style="opacity:.5; font-size:.78rem;">Confidential: working document for Baker Katz leadership · Companion to the May 8 BD Current State synthesis</span>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  window.addEventListener('scroll', () => {
+    document.getElementById('topNav').classList.toggle('scrolled', window.scrollY > 50);
+  });
+</script>
+
+</body>
+</html>
